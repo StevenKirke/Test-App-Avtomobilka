@@ -22,14 +22,13 @@ struct NavigatorBarForCar: View {
                     .frame(width: 30, height: 30)
             }
             .frame(width: 65, height: 65)
-            .padding(.leading, 15)
+            .padding(.leading, 2)
             Text(tittle)
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(.white)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.c_212529)
-        .coordinateSpace(name: "navigation")
     }
 }
 

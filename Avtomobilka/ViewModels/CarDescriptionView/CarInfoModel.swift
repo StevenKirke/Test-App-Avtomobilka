@@ -18,26 +18,21 @@ class CarInfoModel: ObservableObject {
     
     @Published var page: Int = 1 {
         didSet {
-
-        } willSet {
-            if newValue == self.totalPage {
-                print("newValue - \(newValue)")
+            if oldValue == self.totalPage {
+                print("Block load post")
                 isBlockLoad = true
             }
-        }
-    }
-    @Published var totalPage: Int = 0 {
-        didSet {
-            if totalPage == 0 {
-                print("oldValue - \(oldValue)")
-                totalPage = oldValue
+        } willSet {
+            if newValue == self.totalPage {
+
             }
         }
     }
+    @Published var totalPage: Int = 0
     
     var isBlockLoad: Bool = false
     
-    func getMock(currentCar: Int) {
+   private func getMock(currentCar: Int) {
         let currentData = Data(mockCarInfo.utf8)
         self.jsonManager.decodeJSON(data: currentData, model: carInfo) { [weak self] json, error in
             guard let self = self else {
@@ -51,14 +46,14 @@ class CarInfoModel: ObservableObject {
             }
             self.carInfo = currentJSON
             if carInfo != nil {
-                self.getMockPost(currentCar: 49)
+                self.getMockPost()
             }
         }
     }
     
-    func getInfo(currentCar: Int) {
+    private func getInfo() {
         let group = DispatchGroup()
-        self.requestData.getData(url: URLs.carInfo(currentCar).url) { data, error in
+        self.requestData.getData(url: URLs.carInfo(self.currentCar).url) { data, error in
             if error != "" {
                 print("Error - ", error)
             }
@@ -81,15 +76,15 @@ class CarInfoModel: ObservableObject {
             }
             group.notify(queue: .main) {
                 if self.carInfo != nil {
-                    if self.isBlockLoad {
-                        self.getPosts(currentCar: currentCar)
+                    if !self.isBlockLoad {
+                        self.getPosts()
                     }
                 }
             }
         }
     }
     
-    func getMockPost(currentCar: Int) {
+    private func getMockPost() {
         let currentData = Data(mockPosts.utf8)
         self.jsonManager.decodeJSON(data: currentData, model: self.posts) { [weak self] json, error in
             guard let self = self else {
@@ -101,14 +96,14 @@ class CarInfoModel: ObservableObject {
             guard let currentJSON = json else {
                 return
             }
-            //self.posts = currentJS
+            self.posts = currentJSON
         }
     }
     
-    func getPosts(currentCar: Int) {
+    private func getPosts() {
         var currentPost: PostModel?
         let group = DispatchGroup()
-        self.requestData.getDataWithHeader(url: URLs.posts(currentCar).url) { [weak self] data, error, totalPage in
+        self.requestData.getDataWithHeader(url: URLs.posts(self.currentCar, page).url) { [weak self] data, error, totalPage in
             guard let self = self else {
                 return
             }
@@ -119,8 +114,6 @@ class CarInfoModel: ObservableObject {
                 if let cast = Int(totalPage) {
                     self.totalPage = cast
                 }
-            } else {
-                self.totalPage = 0
             }
             guard let currentData = data else {
                 return
@@ -136,14 +129,24 @@ class CarInfoModel: ObservableObject {
                 currentPost = currentJSON
             }
             group.notify(queue: .main) {
-                guard let post = currentPost?.posts else {
+                guard let tempPost = currentPost?.posts else {
                     print("Error")
                     return
                 }
                 let oldData = self.posts
-                    self.posts = oldData + post
+                    self.posts = oldData + tempPost
                     self.page += 1
             }
+        }
+    }
+    
+    func getInfoCar() {
+        getInfo()
+    }
+    
+    func getPostForCar() {
+        if !isBlockLoad {
+            getPosts()
         }
     }
     

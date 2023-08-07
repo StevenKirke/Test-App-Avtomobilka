@@ -20,7 +20,8 @@ struct CarDescription: View {
     var precent: CGFloat {
         (70 * UIScreen.main.bounds.width) / 100
     }
-    
+    let index: Int
+    @Binding var curentIndexCarList: Int
     @State var currentIndex: Int = 0
     @State private var offset = CGFloat.zero
     
@@ -29,13 +30,10 @@ struct CarDescription: View {
             ZStack {
                 VStack(spacing: 0) {
                     NavigatorBarForCar(tittle: name) {
+                        self.curentIndexCarList = index
                         self.returnMainView.wrappedValue.dismiss()
                     }
-                    .onAppear() {
-                        print("\(name) \(carID) \(image)")
-                    }
                     ScrollView(.vertical, showsIndicators: false) {
-                       // VStack(spacing: 10) {
                             VStack(spacing: 10) {
                                 HStack(spacing: 12) {
                                     CustomImage(image: carInfoVM.carInfo?.user.avatar.url ?? "")
@@ -47,9 +45,6 @@ struct CarDescription: View {
                                     Text(carInfoVM.carInfo?.user.username ?? "Name")
                                         .font(.system(size: 16, weight: .bold))
                                         .foregroundColor(.c_212529)
-                                        .onTapGesture {
-                                            print("\(carInfoVM.posts)")
-                                        }
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 10)
@@ -62,7 +57,6 @@ struct CarDescription: View {
                                                     ImagePost(currentIndex: $currentIndex, index: index, image: image)
                                                         .frame(width: proxy.frame(in: .global).width - 40, height: precent)
                                                         .modifier(OffsetsModefier(currentIndex: $currentIndex, index: index))
-        
                                                 }
                                             }
                                         }
@@ -71,7 +65,6 @@ struct CarDescription: View {
                                             RoundedRectangle(cornerRadius: 10)
                                         }
                                         .padding(.horizontal, 10)
-                                        
                                         .onChange(of: currentIndex, perform: { _ in
                                             DispatchQueue.main.async {
                                                 withAnimation(.easeInOut) {
@@ -126,7 +119,7 @@ struct CarDescription: View {
                                             if elem == carInfoVM.posts.count - 1 {
                                                 PostCar(post: carInfoVM.posts[elem], isShowPost: false)
                                                     .onAppear() {
-                                                        self.carInfoVM.getInfo(currentCar: carID)
+                                                        self.carInfoVM.getPostForCar()
                                                     }
                                             } else {
                                                 PostCar(post: carInfoVM.posts[elem], isShowPost: false)
@@ -134,8 +127,6 @@ struct CarDescription: View {
                                         }
                                     }
                                 }
-
-                            //}
                         }
                     }
                     .mask{
@@ -150,7 +141,12 @@ struct CarDescription: View {
                                startPoint: .trailing, endPoint: .leading)
             )
             .onAppear() {
-                self.carInfoVM.getInfo(currentCar: carID)
+                self.carInfoVM.currentCar = carID
+                self.carInfoVM.getInfoCar()
+                print("currentCar - \(carInfoVM.currentCar)")
+            }
+            .onDisappear() {
+                self.carInfoVM.totalPage = 0
             }
         }
         .navigationBarTitle("", displayMode: .inline)
@@ -205,7 +201,7 @@ struct PostCar: View {
     var body: some View {
         
         VStack(alignment: .trailing, spacing: 15) {
-            CustomImage(image: post.img ?? "")
+            CustomImage(image: post.img ?? "none")
                 .scaledToFill()
                 .frame(width: UIScreen.main.bounds.width - 40, height: precent)
                 .cornerRadius(10)
@@ -235,7 +231,9 @@ struct PostCar: View {
                     }
                     .foregroundColor(.c_212529)
                     .lineLimit(isShowPost ? nil : 3)
+                    .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     HStack(spacing: 10) {
                         RoundedRectangle(cornerRadius: 1)
                             .fill(Color.c_212529)
@@ -295,7 +293,7 @@ struct CarDescription_Previews: PreviewProvider {
     static var previews: some View {
         CarDescription(name: "Volkswagen",
                        carID: 49,
-                       image: "http://am111.05.testing.place/uploads/user/37/auto/49/fc40ee0a0dbf97b2e504b2f48438a8ba_w500.jpg")
+                       image: "http://am111.05.testing.place/uploads/user/37/auto/49/fc40ee0a0dbf97b2e504b2f48438a8ba_w500.jpg", index: 1, curentIndexCarList: .constant(1))
     }
 }
 #endif

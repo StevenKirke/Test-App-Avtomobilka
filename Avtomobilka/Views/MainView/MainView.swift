@@ -13,23 +13,23 @@ struct MainView: View {
     @StateObject var globalModel: GlobalModel
     @ObservedObject var mainVM: MainViewModel = MainViewModel()
     
+    @State var currentIndex: Int = 0
+    
     var body: some View {
         NavigationView {
             ScrollViewReader { proxy in
                 VStack(spacing: 0) {
                     CustomNavigationView(isLoad: self.$mainVM.isLoad) {
-                        DispatchQueue.main.async {
-                            withAnimation {
-                                // proxy.scrollTo(10, anchor: .top)
-                            }
-                        }
+                    }
+                    .onAppear() {
+                        print("currentIndex \(currentIndex)")
                     }
                     List(0..<mainVM.listCars.count, id: \.self) { elem in
                         VStack(spacing: 0) {
                             if elem == self.mainVM.listCars.count - 1 {
-                                CellView(car: self.mainVM.listCars[elem], isLast: true, id: elem, mainVM: self.mainVM)
+                                CellView(mainVM: self.mainVM, car: self.mainVM.listCars[elem], isLast: true, index: elem, currentIndex: $currentIndex)
                             } else {
-                                CellView(car: self.mainVM.listCars[elem], isLast: false, id: elem, mainVM: self.mainVM)
+                                CellView(mainVM: self.mainVM, car: self.mainVM.listCars[elem], isLast: false, index: elem, currentIndex: $currentIndex)
                             }
                         }
                         .listRowBackground(Color.clear)
@@ -37,7 +37,13 @@ struct MainView: View {
                     }
                     .listStyle(PlainListStyle())
                     .scrollIndicators(.hidden)
-                    
+                    .onAppear() {
+                        DispatchQueue.main.async {
+                            withAnimation(.easeInOut) {
+                                proxy.scrollTo(currentIndex, anchor: .top)
+                            }
+                        }
+                    }
                 }
                 .background(
                     LinearGradient(gradient: Gradient(colors: [.c_f4f4f5, .c_c2c3cb]),
@@ -54,10 +60,11 @@ struct MainView: View {
 
 struct CellView: View {
     
+    @ObservedObject var mainVM: MainViewModel
+    
     let car: CarElement
     var isLast: Bool
-    let id: Int
-    @ObservedObject var mainVM: MainViewModel
+    let index: Int
     
     var precent: CGFloat {
         (80 * UIScreen.main.bounds.width) / 100
@@ -75,6 +82,8 @@ struct CellView: View {
         }
     }
     
+    @Binding var currentIndex: Int
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             CustomImage(image: car.image)
@@ -91,7 +100,6 @@ struct CellView: View {
                     if !car.transmissionName.rawValue.isEmpty {
                         TextBlock(text: car.transmissionName.rawValue)
                     }
-                    let year = String(car.year) + " г."
                     TextBlock(text: year)
                 }
                 .onAppear() {
@@ -102,10 +110,7 @@ struct CellView: View {
                     if !car.transmissionName.rawValue.isEmpty {
                         TextBlock(text: car.transmissionName.rawValue)
                     }
-                    if !String(car.year).isEmpty  {
-                        let year = String(car.year) + " г."
-                        TextBlock(text: year)
-                    }
+                    TextBlock(text: year)
                 }
             }
         }
@@ -113,10 +118,14 @@ struct CellView: View {
         .padding(.horizontal, 10)
         .background(Color.white)
         .cornerRadius(12)
+        .id("\(index)")
         .background(
             NavigationLink(destination: CarDescription(name: car.brandName,
                                                        carID: car.id,
-                                                       image: car.thumbnail)) {
+                                                       image: car.thumbnail,
+                                                       index: index,
+                                                       curentIndexCarList: $currentIndex)) {
+                                                          
                                                        }
                 .navigationBarTitle("", displayMode: .inline)
                 .navigationBarBackButtonHidden(true)

@@ -22,11 +22,12 @@ struct CustomImage: View {
                     image
                         .resizable()
                 case .failure(_):
-                    Image(systemName: "photo")
+                    Image(.NoImage)
                         .resizable()
                         .foregroundColor(.c_212529.opacity(0.2))
+                        .background(Color.c_212529.opacity(0.1))
                 @unknown default:
-                    Image(systemName: "photo")
+                    Image(.NoImage)
                         .resizable()
                         .foregroundColor(.c_212529.opacity(0.2))
             }

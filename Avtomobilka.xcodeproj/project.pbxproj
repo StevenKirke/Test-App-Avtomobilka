@@ -21,7 +21,6 @@
 		329DE2842A7A7C7A003449B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329DE2832A7A7C7A003449B7 /* AppDelegate.swift */; };
 		329DE2862A7A7C7A003449B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329DE2852A7A7C7A003449B7 /* SceneDelegate.swift */; };
 		329DE2882A7A7C7A003449B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329DE2872A7A7C7A003449B7 /* ViewController.swift */; };
-		329DE28B2A7A7C7A003449B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329DE2892A7A7C7A003449B7 /* Main.storyboard */; };
 		329DE28D2A7A7C7B003449B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 329DE28C2A7A7C7B003449B7 /* Assets.xcassets */; };
 		329DE2902A7A7C7B003449B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329DE28E2A7A7C7B003449B7 /* LaunchScreen.storyboard */; };
 		329DE2982A7A8226003449B7 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329DE2972A7A8226003449B7 /* MainView.swift */; };
@@ -53,7 +52,6 @@
 		329DE2832A7A7C7A003449B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		329DE2852A7A7C7A003449B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		329DE2872A7A7C7A003449B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		329DE28A2A7A7C7A003449B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		329DE28C2A7A7C7B003449B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		329DE28F2A7A7C7B003449B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		329DE2912A7A7C7B003449B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +90,8 @@
 		327545B32A7AF35E005CBB0C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				329DE2912A7A7C7B003449B7 /* Info.plist */,
+				329DE28C2A7A7C7B003449B7 /* Assets.xcassets */,
 				327545B42A7AF368005CBB0C /* Fonts */,
 			);
 			path = Resources;
@@ -177,23 +177,20 @@
 		329DE2822A7A7C7A003449B7 /* Avtomobilka */ = {
 			isa = PBXGroup;
 			children = (
-				32DB14772A800D40006520BE /* Modifiers */,
 				32DB14692A7F9324006520BE /* MockModels */,
 				32DB14662A7E98C6006520BE /* Models */,
-				327545BC2A7B15CC005CBB0C /* ElementsInterface */,
-				327545B72A7AF3BD005CBB0C /* Extensions */,
-				327545B32A7AF35E005CBB0C /* Resources */,
-				327545B02A7ACB73005CBB0C /* Enums */,
 				329DE29E2A7A8DB1003449B7 /* Views */,
 				329DE29F2A7A8DBB003449B7 /* ViewModels */,
 				329DE2992A7A8D04003449B7 /* Networking */,
+				327545BC2A7B15CC005CBB0C /* ElementsInterface */,
+				327545B72A7AF3BD005CBB0C /* Extensions */,
+				327545B02A7ACB73005CBB0C /* Enums */,
+				32DB14772A800D40006520BE /* Modifiers */,
+				327545B32A7AF35E005CBB0C /* Resources */,
 				329DE2832A7A7C7A003449B7 /* AppDelegate.swift */,
 				329DE2852A7A7C7A003449B7 /* SceneDelegate.swift */,
 				329DE2872A7A7C7A003449B7 /* ViewController.swift */,
-				329DE2892A7A7C7A003449B7 /* Main.storyboard */,
-				329DE28C2A7A7C7B003449B7 /* Assets.xcassets */,
 				329DE28E2A7A7C7B003449B7 /* LaunchScreen.storyboard */,
-				329DE2912A7A7C7B003449B7 /* Info.plist */,
 			);
 			path = Avtomobilka;
 			sourceTree = "<group>";
@@ -219,7 +216,6 @@
 		329DE29F2A7A8DBB003449B7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				32DB14702A7FBDC6006520BE /* PostModel */,
 				327545C92A7D40C0005CBB0C /* MainViewModel */,
 				327545CA2A7D40D6005CBB0C /* CarDescriptionView */,
 			);
@@ -244,13 +240,6 @@
 				32DB146E2A7FA007006520BE /* MockPost.swift */,
 			);
 			path = MockModels;
-			sourceTree = "<group>";
-		};
-		32DB14702A7FBDC6006520BE /* PostModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PostModel;
 			sourceTree = "<group>";
 		};
 		32DB14772A800D40006520BE /* Modifiers */ = {
@@ -322,7 +311,6 @@
 				327545B62A7AF372005CBB0C /* ARIBL0.ttf in Resources */,
 				329DE2902A7A7C7B003449B7 /* LaunchScreen.storyboard in Resources */,
 				329DE28D2A7A7C7B003449B7 /* Assets.xcassets in Resources */,
-				329DE28B2A7A7C7A003449B7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,14 +351,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		329DE2892A7A7C7A003449B7 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				329DE28A2A7A7C7A003449B7 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		329DE28E2A7A7C7B003449B7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -510,12 +490,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P87Y98S683;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Avtomobilka/Info.plist;
+				INFOPLIST_FILE = Avtomobilka/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Avtomobilka;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -539,12 +518,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P87Y98S683;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Avtomobilka/Info.plist;
+				INFOPLIST_FILE = Avtomobilka/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Avtomobilka;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

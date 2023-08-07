@@ -23,20 +23,16 @@ class RequestData {
                 var currentTotalPage: String = ""
                 if error != nil {
                     returnData(nil, "Request data.", "")
-                    print("Error 1")
                     return
                 }
                 if let httpResponse = response as? HTTPURLResponse {
                      guard let totalPage = httpResponse.allHeaderFields["Total-Pages"] as? String  else {
-                         print("Error 2")
+                         returnData(nil, "Total-Pages.", "")
                          return
                      }
                     currentTotalPage = totalPage
-                    print("totalPage \(totalPage)")
                 }
-
                 guard let currentData = data else {
-                    print("Error 3")
                     returnData(nil, "Response data." , "")
                     return
                 }

@@ -18,20 +18,12 @@ class MainViewModel: ObservableObject {
             
         } willSet {
             if newValue == self.totalPage {
-                print("Break loading")
                 isBlockLoad = true
             }
         }
     }
-    @Published var totalPage: Int = 0 {
-        didSet {
-            if totalPage == 0 {
-                print(oldValue)
-                totalPage = oldValue
-            }
-        }
-    }
-    
+    @Published var totalPage: Int = 0
+    @Published var currentId: Int = 0
     @Published var isLoad: Bool = false
     var isBlockLoad: Bool = false
     
@@ -39,7 +31,7 @@ class MainViewModel: ObservableObject {
         getData()
     }
     
-    func getMock() {
+    private func getMock() {
         let currentData = Data(mockCars.utf8)
         self.jsonManager.decodeJSON(data: currentData, model: listCars) { [weak self] json, error in
             if error != "" {
@@ -55,9 +47,8 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    func getCars() {
+    private func getCars() {
         self.isLoad = true
-        print(page)
         self.requestData.getDataWithHeader(url: URLs.cars(self.page).url) { [weak self] data, error, page in
             guard let self = self else {
                 return
@@ -97,10 +88,7 @@ class MainViewModel: ObservableObject {
     func getData() {
         if !isBlockLoad {
             getCars()
-            print("Load cars")
-        } else {
-            print("Not load car")
         }
-        
     }
+
 }

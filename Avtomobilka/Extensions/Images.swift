@@ -13,6 +13,7 @@ extension Image {
     enum Icons: String {
         case logoCar
         case BackIcon
+        case NoImage
     }
     
     init( _ name: Image.Icons) {
@@ -21,7 +22,7 @@ extension Image {
     
     static let iconCar = Image(Icons.logoCar)
     static let iconBack = Image(Icons.BackIcon)
-
+    static let noImage = Image(Icons.NoImage)
 }
 
 extension Image.Icons {
