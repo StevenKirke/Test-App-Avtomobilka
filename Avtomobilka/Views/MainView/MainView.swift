@@ -25,13 +25,19 @@ struct MainView: View {
                         print("currentIndex \(currentIndex)")
                     }
                     List(0..<mainVM.listCars.count, id: \.self) { elem in
-                        VStack(spacing: 0) {
-                            if elem == self.mainVM.listCars.count - 1 {
-                                CellView(mainVM: self.mainVM, car: self.mainVM.listCars[elem], isLast: true, index: elem, currentIndex: $currentIndex)
-                            } else {
-                                CellView(mainVM: self.mainVM, car: self.mainVM.listCars[elem], isLast: false, index: elem, currentIndex: $currentIndex)
+                       // VStack(spacing: 0) {
+                            let isProgress = elem == (self.mainVM.listCars.count - 1) ? true : false
+                            VStack(spacing: 0) {
+                                CellView(mainVM: self.mainVM, car: self.mainVM.listCars[elem], isLast: isProgress, index: elem, currentIndex: $currentIndex)
+                                if isProgress {
+                                    if !self.mainVM.isBlockLoad {
+                                        ProgressView()
+                                            .tint(.c_212529)
+                                            .padding(.top, 20)
+                                    }
+                                }
                             }
-                        }
+                       // }
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                     }
@@ -103,7 +109,9 @@ struct CellView: View {
                     TextBlock(text: year)
                 }
                 .onAppear() {
-                    self.mainVM.getData()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.mainVM.getData()
+                    }
                 }
             } else {
                 HStack(spacing: 10) {
@@ -125,7 +133,7 @@ struct CellView: View {
                                                        image: car.thumbnail,
                                                        index: index,
                                                        curentIndexCarList: $currentIndex)) {
-                                                          
+                                                           
                                                        }
                 .navigationBarTitle("", displayMode: .inline)
                 .navigationBarBackButtonHidden(true)

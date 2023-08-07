@@ -15,24 +15,20 @@ class CarInfoModel: ObservableObject {
     @Published var carInfo: ModelCarInfo?
     @Published var posts: [PostElement] = []
     @Published var currentCar: Int = 0
+    @Published var isBlockLoad: Bool = false
     
     @Published var page: Int = 1 {
         didSet {
             if oldValue == self.totalPage {
-                print("Block load post")
-                isBlockLoad = true
-            }
-        } willSet {
-            if newValue == self.totalPage {
-
+                self.isBlockLoad = true
             }
         }
     }
     @Published var totalPage: Int = 0
     
-    var isBlockLoad: Bool = false
     
-   private func getMock(currentCar: Int) {
+    
+    private func getMock(currentCar: Int) {
         let currentData = Data(mockCarInfo.utf8)
         self.jsonManager.decodeJSON(data: currentData, model: carInfo) { [weak self] json, error in
             guard let self = self else {
@@ -134,8 +130,8 @@ class CarInfoModel: ObservableObject {
                     return
                 }
                 let oldData = self.posts
-                    self.posts = oldData + tempPost
-                    self.page += 1
+                self.posts = oldData + tempPost
+                self.page += 1
             }
         }
     }

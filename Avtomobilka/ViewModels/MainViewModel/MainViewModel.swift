@@ -25,7 +25,7 @@ class MainViewModel: ObservableObject {
     @Published var totalPage: Int = 0
     @Published var currentId: Int = 0
     @Published var isLoad: Bool = false
-    var isBlockLoad: Bool = false
+    @Published var isBlockLoad: Bool = false
     
     init() {
         getData()
